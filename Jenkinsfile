@@ -12,8 +12,14 @@ pipeline {
             steps {
                 // Install dependencies and build the TypeScript project
                 script {
-                    sh 'npm install'
-                    sh 'npm run build'
+                    try {
+                        sh 'npm install'
+                        sh 'npm run build'
+                    } catch (err) {
+                        echo "Error occurred during build: ${err}"
+                        currentBuild.result = 'FAILURE'
+                        error("Build failed")
+                    }
                 }
             }
         }
@@ -21,8 +27,8 @@ pipeline {
             steps {
                 // Perform SonarQube analysis using SonarScanner
                 script {
-                    def scannerHome = tool 'SonarScanner'
-                    withSonarQubeEnv() {
+                    withSonarQubeEnv('SonarQube') {
+                        def scannerHome = tool 'SonarScanner'
                         sh "${scannerHome}/bin/sonar-scanner"
                     }
                 }
@@ -33,6 +39,12 @@ pipeline {
     post {
         always {
             // Clean up any temporary files or resources here
+        }
+        success {
+            echo "Pipeline succeeded!"
+        }
+        failure {
+            echo "Pipeline failed!"
         }
     }
 }
