@@ -1,0 +1,11 @@
+{
+    "name": "typescript-sonarqube",
+    "version": "1.0.0",
+    "description": "A simple TypeScript project for SonarQube demo",
+    "scripts": {
+        "build": "tsc"
+    },
+    "devDependencies": {
+        "typescript": "^4.5.5"
+    }
+}
