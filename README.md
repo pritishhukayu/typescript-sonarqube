@@ -1,2 +1,2 @@
 # typescript-sonarqube
-checking Sonarqube Analysis with github actions .
+checking Sonarqube Analysis with github actions.
